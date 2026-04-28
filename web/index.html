@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GaN Chip Digital Twin Playground</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header card">
+      <h1>GaN Digital Twin Playground</h1>
+      <p class="small">Drag and drop widgets to customize your simulation workspace.</p>
+    </header>
+
+    <div class="toolbar card">
+      <div class="toolbar-left">
+        <strong>Playground</strong>
+        <span class="small">Drag widget headers to reorder layout.</span>
+      </div>
+      <div class="toolbar-actions">
+        <div class="graph-toggle-group">
+          <label><input type="checkbox" class="graph-toggle" data-target="thermal" checked /> Thermal Map</label>
+          <label><input type="checkbox" class="graph-toggle" data-target="opmap" checked /> Stress Map</label>
+          <label><input type="checkbox" class="graph-toggle" data-target="chart" checked /> Ids Chart</label>
+        </div>
+        <button id="refreshMetricsBtn" class="toolbar-btn">Refresh Metrics</button>
+      </div>
+    </div>
+
+    <section id="playground" class="playground-grid">
+      <article class="card widget" draggable="true" data-widget="controls">
+        <div class="widget-handle">Input Controls</div>
+        <div class="widget-body">
+          <div class="presets">
+            <button class="preset-btn" data-preset="low_loss">Low Loss</button>
+            <button class="preset-btn" data-preset="high_stress">High Stress</button>
+            <button class="preset-btn" data-preset="rf_mode">RF Mode</button>
+          </div>
+
+          <label for="vds">Drain-Source Voltage (Vds)</label>
+          <div class="row">
+            <input id="vds" type="range" min="0" max="600" step="1" value="200" />
+            <div id="vdsValue" class="value">200 V</div>
+          </div>
+
+          <label for="temp">Temperature (Temp)</label>
+          <div class="row">
+            <input id="temp" type="range" min="25" max="150" step="1" value="75" />
+            <div id="tempValue" class="value">75 C</div>
+          </div>
+
+          <label for="freq">Frequency (Freq)</label>
+          <div class="row">
+            <input id="freq" type="range" min="10000" max="1000000" step="1000" value="100000" />
+            <div id="freqValue" class="value">100,000 Hz</div>
+          </div>
+
+          <button id="predictBtn">Run Simulation</button>
+          <div id="result" class="result">Ids: -- A</div>
+        </div>
+      </article>
+
+      <article class="card widget" draggable="true" data-widget="response">
+        <div class="widget-handle">Chip Response</div>
+        <div class="widget-body">
+          <div class="board">
+            <div class="chip" id="chip"><span>GaN</span></div>
+            <div class="wire top-wire"></div>
+            <div class="wire right-wire"></div>
+            <div class="wire bottom-wire"></div>
+            <div class="wire left-wire"></div>
+          </div>
+
+          <div class="effects">
+            <div class="effect-row">
+              <span>Conduction</span>
+              <div class="meter"><div id="conductionBar" class="fill"></div></div>
+            </div>
+            <div class="effect-row">
+              <span>Thermal Stress</span>
+              <div class="meter"><div id="thermalBar" class="fill thermal"></div></div>
+            </div>
+            <div class="effect-row">
+              <span>Switching Intensity</span>
+              <div class="meter"><div id="switchBar" class="fill switch"></div></div>
+            </div>
+          </div>
+          <p id="insight" class="small insight">Tune sliders to simulate behavior.</p>
+        </div>
+      </article>
+
+      <article class="card widget" draggable="true" data-widget="metrics">
+        <div class="widget-handle">Model Metrics</div>
+        <div class="widget-body">
+          <p class="small">Regression and proxy classification metrics from `/metrics`.</p>
+          <div id="metricsStatus" class="small">Loading metrics...</div>
+          <div id="metricsTableWrap" class="metrics-table-wrap"></div>
+        </div>
+      </article>
+
+      <article class="card widget" draggable="true" data-widget="thermal">
+        <div class="widget-handle">Thermal Map</div>
+        <div class="widget-body">
+          <canvas id="thermalMap" width="280" height="160"></canvas>
+        </div>
+      </article>
+
+      <article class="card widget" draggable="true" data-widget="opmap">
+        <div class="widget-handle">Operating Region Map</div>
+        <div class="widget-body">
+          <canvas id="opMap" width="560" height="240"></canvas>
+          <p class="small map-legend">Best zone = bright region, High load = medium gray, Underperformance = dark region.</p>
+        </div>
+      </article>
+
+      <article class="card widget" draggable="true" data-widget="chart">
+        <div class="widget-handle">Ids Sweep Chart</div>
+        <div class="widget-body">
+          <canvas id="idsChart" width="560" height="220"></canvas>
+        </div>
+      </article>
+    </section>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

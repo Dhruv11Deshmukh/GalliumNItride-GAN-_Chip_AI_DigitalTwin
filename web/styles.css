@@ -1,0 +1,378 @@
+:root {
+  --bg: #060606;
+  --panel: #111111;
+  --panel-soft: #171717;
+  --line: #2a2a2a;
+  --text: #f3f3f3;
+  --muted: #b7b7b7;
+  --accent: #ffffff;
+  --accent-soft: #dcdcdc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 20%, #1c1c1c 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, #141414 0%, transparent 40%),
+    var(--bg);
+}
+
+.container {
+  max-width: 1120px;
+  margin: 1.5rem auto;
+  padding: 0 1rem 1.2rem;
+}
+
+.card {
+  background: linear-gradient(160deg, var(--panel) 0%, var(--panel-soft) 100%);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.header {
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.small {
+  margin: 0;
+  color: var(--muted);
+}
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.graph-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.graph-toggle-group label {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #121212;
+}
+
+.graph-toggle-group input[type="checkbox"] {
+  accent-color: #ff8b2b;
+}
+
+.toolbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.toolbar-btn {
+  margin-top: 0;
+  width: auto;
+  min-width: 130px;
+}
+
+.widget {
+  padding: 0;
+  overflow: hidden;
+}
+
+.widget-handle {
+  cursor: grab;
+  user-select: none;
+  padding: 0.72rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #171717 0%, #101010 100%);
+  color: #ececec;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.widget:active .widget-handle {
+  cursor: grabbing;
+}
+
+.widget-body {
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.widget.dragging {
+  opacity: 0.55;
+  border-color: #8f8f8f;
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+label {
+  display: block;
+  margin: 0.75rem 0 0.3rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #f5f5f5;
+}
+
+.value {
+  text-align: right;
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+button {
+  margin-top: 0.9rem;
+  width: 100%;
+  border: 1px solid #3a3a3a;
+  background: linear-gradient(180deg, #f8f8f8 0%, #cfcfcf 100%);
+  color: #111;
+  border-radius: 9px;
+  padding: 0.62rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.04);
+}
+
+.preset-btn {
+  margin-top: 0;
+  font-size: 0.84rem;
+  padding: 0.5rem 0.45rem;
+}
+
+.result {
+  margin-top: 0.85rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.board {
+  position: relative;
+  height: 240px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    #0c0c0c;
+  background-size: 22px 22px, 22px 22px, auto;
+  overflow: hidden;
+}
+
+.chip {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 90px;
+  border-radius: 10px;
+  border: 1px solid #4d4d4d;
+  background: linear-gradient(160deg, #191919 0%, #090909 100%);
+  display: grid;
+  place-items: center;
+  color: #f9f9f9;
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.25s ease;
+}
+
+.wire {
+  position: absolute;
+  background: linear-gradient(90deg, #545454 0%, #ebebeb 50%, #545454 100%);
+  opacity: 0.85;
+  transition: filter 0.2s ease;
+}
+
+.top-wire,
+.bottom-wire {
+  width: 88px;
+  height: 4px;
+  left: calc(50% - 44px);
+}
+
+.top-wire {
+  top: 44px;
+}
+
+.bottom-wire {
+  bottom: 44px;
+}
+
+.left-wire,
+.right-wire {
+  width: 4px;
+  height: 56px;
+  top: calc(50% - 28px);
+}
+
+.left-wire {
+  left: 110px;
+}
+
+.right-wire {
+  right: 110px;
+}
+
+.effects {
+  margin-top: 1rem;
+}
+
+.effect-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.meter {
+  width: 100%;
+  height: 11px;
+  border-radius: 999px;
+  border: 1px solid #353535;
+  background: #0d0d0d;
+  overflow: hidden;
+}
+
+.fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #8f8f8f 0%, #f7f7f7 100%);
+  transition: width 0.2s ease;
+}
+
+.fill.thermal {
+  background: linear-gradient(90deg, #666 0%, #fff 100%);
+}
+
+.fill.switch {
+  background: linear-gradient(90deg, #4f4f4f 0%, #dfdfdf 100%);
+}
+
+.insight {
+  margin-top: 0.85rem;
+  min-height: 22px;
+}
+
+.thermal-map-wrap,
+.op-map-wrap,
+.chart-wrap {
+  margin-top: 1rem;
+}
+
+h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.95rem;
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+#thermalMap,
+#opMap,
+#idsChart {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0b0b0b;
+}
+
+.map-legend {
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+}
+
+.metrics-table-wrap {
+  margin-top: 0.7rem;
+  overflow-x: auto;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.metrics-table th,
+.metrics-table td {
+  border: 1px solid #323232;
+  padding: 0.35rem 0.45rem;
+  text-align: right;
+}
+
+.metrics-table th:first-child,
+.metrics-table td:first-child {
+  text-align: left;
+}
+
+.metrics-table th {
+  background: #151515;
+  color: #f0f0f0;
+}
+
+@media (max-width: 900px) {
+  .playground-grid {
+    grid-template-columns: 1fr;
+  }
+}
